@@ -1,7 +1,7 @@
 // bouncing the ball on the canvas
 
 const $lives = $('#lives');
-const $score = $('score')
+const $score = $('#score')
 // grabbing canvas element from the dom
 const canvas = document.getElementById("gameCanvas");
 
@@ -151,6 +151,7 @@ function brickCollision() {
                 if(x > b.x - ballRadius && x - ballRadius < b.x + brickWidth && y > b.y - ballRadius && y - ballRadius < b.y + brickHeight) {
                     dy = -dy;
                     b.broken = true;
+                    score++;
                 } 
             }
         }
@@ -160,10 +161,21 @@ function brickCollision() {
 //function to subrtract lives when the ball hits the bottom of the canvas.
 function lifeLoss() {
     if(lives <= 3 && lives > 0) {
-        $lives.html(`Lives: ${lives}`)
+        $lives.html(`Lives: ${lives}`);
     } else if(lives === 0) {
         $lives.html(`Lives: ${lives}`)
         alert(`You ran out lives. Youre final score was ${score}`);
+        clearInterval(gameTime);
+        location.reload();
+    }
+}
+
+//function to increase the score on the page
+function scoreTrac() {
+    if(score > 0 && score < 108) {
+        $score.html(`Score: ${score}`);
+    } else if (score == 108) {
+        alert(`You have reached the max score of ${score}. Congrats!`);
         clearInterval(gameTime);
         location.reload();
     }
@@ -178,6 +190,7 @@ function ball() {
     drawBricks();
     paddleMove();
     brickCollision();
+    scoreTrac();
     lifeLoss();
 }
 
