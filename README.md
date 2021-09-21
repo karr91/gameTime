@@ -10,9 +10,6 @@ Creating a browser game based off the classic Breakout.
 7. If the player successfuly destroys all the bricks the game will end and the max score alert will be shown.
 
 
-
-
-
 # Future ideas
 Adding buttons to start the game or pause the game. 
 Add mouse controls for the paddle.
@@ -28,5 +25,11 @@ Give it a name.
 Bricks drop power ups or extra balls.
 Add bricks that hinder the player.
 Add a way to change the angle of the ball.  
+
+
+# known bugs
+
+Ball rolls across the paddle. Can be replicated.
+Ball will hit multiple bricks without changing direction.
 
 
