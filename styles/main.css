@@ -4,8 +4,28 @@ body {
     flex-wrap: wrap;
     align-content: center;
     justify-content: center;
+    flex-direction: column;
+}
+
+div {
+    display: flex;
+    background: red;
+    border: 3px solid black;
+    justify-content: center;
+}
+
+#scoreBar {
+    justify-content: space-between;
+}
+
+#score {
+    padding-left: 20px;
+}
+
+#lives {
+    padding-right: 20px;
 }
 
 #gameCanvas {
-    border: 1px solid #000000;
+    border: 3px solid #000000;
 }
