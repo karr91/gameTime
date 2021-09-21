@@ -25,6 +25,39 @@ var paddlePosition = (canvas.width - paddleWidth) / 2;
 var paddleRight = false;
 var paddleLeft = false;
 
+//creating the bricks
+var brickRow = 6;
+var brickColumn = 18;
+var brickWidth = 60;
+var brickHeight = 20;
+var brickPadding = 10;
+var brickOffsetTop = 30;
+var brickOffsetLeft = 15;
+var bricks = [];
+for (var c = 0; c < brickColumn; c++) {
+    bricks[c] = [];
+    for(var r = 0; r < brickRow; r++) {
+        bricks[c][r] = {x: 0, y: 0};
+    }
+};
+
+//drawing the bricks
+function drawBricks() {
+    for (var c = 0; c < brickColumn; c++) {
+        for(var r = 0; r < brickRow; r++) {
+            var bx = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
+            var by = (r * (brickHeight + brickPadding)) + brickOffsetTop;
+            bricks[c][r].x = bx;
+            bricks[c][r].y = by;
+            ctx.beginPath();
+            ctx.rect(bx, by, brickWidth, brickHeight);
+            ctx.fillStyle = 'black';
+            ctx.fill();
+            ctx.closePath();
+        }
+    }
+}
+
 // added event listeners to control the paddle with arrow keys
 document.addEventListener("keydown", keyDown, false);
 document.addEventListener("keyup", keyUp, false);
@@ -88,7 +121,7 @@ function ballBounce() {
         dy = -dy;
     }
 // allowing the ball to bounce off the paddle
-    if ( x + ballRadius > paddlePosition && x + ballRadius < paddlePosition + paddleWidth && y + ballRadius > canvas.height - paddleHeight -60 && y + ballRadius < canvas.height - 60) {
+    if ( x + ballRadius > paddlePosition && x + ballRadius < paddlePosition + paddleWidth && y + ballRadius > canvas.height - paddleHeight -60 && y + ballRadius < (canvas.height - paddleHeight - 60) + paddleHeight){
         dy = -dy;
     }
 // moving the ball as if it bounced off the wall 
@@ -102,8 +135,10 @@ function ball() {
     ballBounce();
     drawBall();
     drawPaddle();
+    drawBricks();
     paddleMove();
 }
 
 //draws the ball and other elements. interval can be changed to make ball faster or slower
 setInterval(ball, 10);
+
