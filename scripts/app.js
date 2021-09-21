@@ -1,4 +1,7 @@
 // bouncing the ball on the canvas
+
+const $lives = $('#lives');
+const $score = $('score')
 // grabbing canvas element from the dom
 const canvas = document.getElementById("gameCanvas");
 
@@ -10,8 +13,8 @@ var x = canvas.width / 2;
 var y = canvas.height / 2 + 100;
 
 //establishing how far the ball moves between intervals
-var dx = 2;
-var dy = -2;
+var dx = 3;
+var dy = -3;
 
 //setting a radius for the ball. this can be altered at higher difficulties 
 var ballRadius = 15;
@@ -37,23 +40,29 @@ var bricks = [];
 for (var c = 0; c < brickColumn; c++) {
     bricks[c] = [];
     for(var r = 0; r < brickRow; r++) {
-        bricks[c][r] = {x: 0, y: 0};
+        bricks[c][r] = {x: 0, y: 0, broken: false};
     }
 };
+
+//variables to keep track of during game
+var lives = 3;
+var score = 0;
 
 //drawing the bricks
 function drawBricks() {
     for (var c = 0; c < brickColumn; c++) {
         for(var r = 0; r < brickRow; r++) {
-            var bx = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
-            var by = (r * (brickHeight + brickPadding)) + brickOffsetTop;
-            bricks[c][r].x = bx;
-            bricks[c][r].y = by;
-            ctx.beginPath();
-            ctx.rect(bx, by, brickWidth, brickHeight);
-            ctx.fillStyle = 'black';
-            ctx.fill();
-            ctx.closePath();
+            if(bricks[c][r].broken == false) {
+                var bx = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
+                var by = (r * (brickHeight + brickPadding)) + brickOffsetTop;
+                bricks[c][r].x = bx;
+                bricks[c][r].y = by;
+                ctx.beginPath();
+                ctx.rect(bx, by, brickWidth, brickHeight);
+                ctx.fillStyle = 'black';
+                ctx.fill();
+                ctx.closePath();
+            }
         }
     }
 }
@@ -114,14 +123,19 @@ function drawPaddle() {
 
 function ballBounce() {
 // if statements to bounce the ball off the wall without the ball going into the wall 
-    if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+    if(x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
         dx = -dx;
     }
-    if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
+    if(y + dy < ballRadius) {
+        dy = -dy;
+    } else if(y + dy > canvas.height - ballRadius) {
+        lives--
+        x = canvas.width / 2;
+        y = canvas.height /2 + 100;
         dy = -dy;
     }
 // allowing the ball to bounce off the paddle
-    if ( x + ballRadius > paddlePosition && x + ballRadius < paddlePosition + paddleWidth && y + ballRadius > canvas.height - paddleHeight -60 && y + ballRadius < (canvas.height - paddleHeight - 60) + paddleHeight){
+if ( x > paddlePosition - ballRadius && x < paddlePosition + paddleWidth - ballRadius && y + dy > canvas.height - paddleHeight -60 - ballRadius && y + dy < (canvas.height - paddleHeight - 60) + paddleHeight - ballRadius){
         dy = -dy;
     }
 // moving the ball as if it bounced off the wall 
@@ -129,16 +143,45 @@ function ballBounce() {
     y += dy;
 }
 
+function brickCollision() {
+    for(var c = 0; c < brickColumn; c++) {
+        for(var r = 0; r < brickRow; r++) {
+            var b = bricks[c][r];
+            if(b.broken == false) {
+                if(x > b.x - ballRadius && x - ballRadius < b.x + brickWidth && y > b.y - ballRadius && y - ballRadius < b.y + brickHeight) {
+                    dy = -dy;
+                    b.broken = true;
+                } 
+            }
+        }
+    }
+}
+
+//function to subrtract lives when the ball hits the bottom of the canvas.
+function lifeLoss() {
+    if(lives <= 3 && lives > 0) {
+        $lives.html(`Lives: ${lives}`)
+    } else if(lives === 0) {
+        $lives.html(`Lives: ${lives}`)
+        alert(`You ran out lives. Youre final score was ${score}`);
+        clearInterval(gameTime);
+        location.reload();
+    }
+}
+
 //refreshes the canvas and moves the ball around the canvas redrawing it as it goes.
 function ball() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ballBounce();
     drawBall();
+    ballBounce();
     drawPaddle();
     drawBricks();
     paddleMove();
+    brickCollision();
+    lifeLoss();
 }
 
 //draws the ball and other elements. interval can be changed to make ball faster or slower
-setInterval(ball, 10);
+var gameTime = setInterval(ball, 10);
+
 
