@@ -11,6 +11,12 @@ const ctx = canvas.getContext("2d");
 //start button set up 
 const $start = $('#start');
 
+//adding an endscreen
+const $endScreen = $('#endScreen');
+const $endText = $('#endText');
+
+$endScreen.hide();
+
 //establishing a starting position for the ball in the canvas
 var x = canvas.width / 2;
 var y = canvas.height / 2 + 100;
@@ -171,14 +177,15 @@ function brickCollision() {
 }
 
 //function to subrtract balls when the ball hits the bottom of the canvas.
-function lifeLoss() {
+function ballLoss() {
     if(balls <= 3 && balls > 0) {
         $balls.html(`Balls: ${balls}`);
     } else if(balls === 0) {
-        $balls.html(`Balls: ${balls}`)
-        alert(`You ran out balls. Youre final score was ${score}`);
+        $balls.html(`Balls: ${balls}`);
+        $endScreen.show();
         clearInterval(gameTime);
-        location.reload();
+        $endText.html(`You have run out of balls with a score of ${score}.`);
+        // location.reload();
     }
 }
 
@@ -187,9 +194,10 @@ function scoreTrac() {
     if(score > 0 && score < 108) {
         $score.html(`Score: ${score}`);
     } else if (score == 108) {
-        alert(`You have reached the max score of ${score}. Congrats!`);
+        $endScreen.show();
         clearInterval(gameTime);
-        location.reload();
+        $endText.html('You have reached the max score of 108. Congrats!');
+        // location.reload();
     }
 }
 
@@ -205,7 +213,7 @@ function ball() {
     paddleMove();
     brickCollision();
     scoreTrac();
-    lifeLoss();
+    ballLoss();
 }
 
 

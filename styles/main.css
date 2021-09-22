@@ -19,6 +19,23 @@ div {
     border-bottom: none;
 }
 
+#endScreen{
+    display: flex;
+    height: 360px;
+    width: 760px;
+    position: absolute;
+    align-self: center;
+    font-size: 40px;
+    background-color: red;
+    border: 6px solid black;
+    align-content: center;
+    justify-content: center;
+}
+
+p {
+    align-self: center;
+}
+
 #scoreBar {
     border-top: none;
     justify-content: space-between;
