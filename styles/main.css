@@ -5,17 +5,22 @@ body {
     align-content: center;
     justify-content: center;
     flex-direction: column;
+    background-color: #8c8c8c;
 }
 
 div {
     display: flex;
     background: red;
-    border: 3px solid black;
+    border: 6px solid black;
     justify-content: center;
 }
 
+#titleBar {
+    border-bottom: none;
+}
 
 #scoreBar {
+    border-top: none;
     justify-content: space-between;
 }
 
@@ -23,22 +28,21 @@ div {
     padding-left: 20px;
 }
 
-#lives {
+#balls {
     padding-right: 20px;
 }
 
 #gameCanvas {
-    border: 3px solid #000000;
+    border: 6px solid #000000;
+    background-color: linen;
 }
 
 #start {
     height: 180px;
     width: 320px;
-    top: 44%;
-    left: 43.5%;
     position: absolute;
+    align-self: center;
     font-size: 40px;
-    color: black;
     background-color: red;
-    border: 10px solid black;
+    border: 6px solid black;
 }

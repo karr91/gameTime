@@ -1,6 +1,6 @@
 // bouncing the ball on the canvas
 
-const $lives = $('#lives');
+const $balls = $('#balls');
 const $score = $('#score')
 // grabbing canvas element from the dom
 const canvas = document.getElementById("gameCanvas");
@@ -48,7 +48,7 @@ for (var c = 0; c < brickColumn; c++) {
 };
 
 //variables to keep track of during game
-var lives = 3;
+var balls = 3;
 var score = 0;
 
 
@@ -56,6 +56,8 @@ var score = 0;
 var timer = 10;
 var level = 0;
 
+
+// variable to define the setInterval
 var gameTime;
 
 //drawing the bricks
@@ -139,7 +141,7 @@ function ballBounce() {
     if(y + dy < ballRadius) {
         dy = -dy;
     } else if(y + dy > canvas.height - ballRadius) {
-        lives--
+        balls--
         x = canvas.width / 2;
         y = canvas.height / 2 + 100;
         dy = -dy;
@@ -168,13 +170,13 @@ function brickCollision() {
     }
 }
 
-//function to subrtract lives when the ball hits the bottom of the canvas.
+//function to subrtract balls when the ball hits the bottom of the canvas.
 function lifeLoss() {
-    if(lives <= 3 && lives > 0) {
-        $lives.html(`Lives: ${lives}`);
-    } else if(lives === 0) {
-        $lives.html(`Lives: ${lives}`)
-        alert(`You ran out lives. Youre final score was ${score}`);
+    if(balls <= 3 && balls > 0) {
+        $balls.html(`Balls: ${balls}`);
+    } else if(balls === 0) {
+        $balls.html(`Balls: ${balls}`)
+        alert(`You ran out balls. Youre final score was ${score}`);
         clearInterval(gameTime);
         location.reload();
     }
@@ -208,10 +210,6 @@ function ball() {
 
 
 // using the start button to start the game
-
-
-
-
 //draws the ball and other elements. interval can be changed to make ball faster or slower
 $start.on('click', function () {
     $start.hide();
