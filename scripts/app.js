@@ -8,6 +8,9 @@ const canvas = document.getElementById("gameCanvas");
 //setting the context of canvas to 2d
 const ctx = canvas.getContext("2d");
 
+//start button set up 
+const $start = $('#start');
+
 //establishing a starting position for the ball in the canvas
 var x = canvas.width / 2;
 var y = canvas.height / 2 + 100;
@@ -47,6 +50,13 @@ for (var c = 0; c < brickColumn; c++) {
 //variables to keep track of during game
 var lives = 3;
 var score = 0;
+
+
+// establishing a variable for changing the time and increasing difficulty of levels
+var timer = 10;
+var level = 0;
+
+var gameTime;
 
 //drawing the bricks
 function drawBricks() {
@@ -131,11 +141,11 @@ function ballBounce() {
     } else if(y + dy > canvas.height - ballRadius) {
         lives--
         x = canvas.width / 2;
-        y = canvas.height /2 + 100;
+        y = canvas.height / 2 + 100;
         dy = -dy;
     }
 // allowing the ball to bounce off the paddle
-if ( x > paddlePosition - ballRadius && x < paddlePosition + paddleWidth - ballRadius && y + dy > canvas.height - paddleHeight -60 - ballRadius && y + dy < (canvas.height - paddleHeight - 60) + paddleHeight - ballRadius){
+if ( x > paddlePosition - ballRadius && x < paddlePosition + paddleWidth - ballRadius && y > canvas.height - paddleHeight -60 - ballRadius && y + dy < (canvas.height - paddleHeight - 60) + paddleHeight - ballRadius){
         dy = -dy;
     }
 // moving the ball as if it bounced off the wall 
@@ -148,7 +158,7 @@ function brickCollision() {
         for(var r = 0; r < brickRow; r++) {
             var b = bricks[c][r];
             if(b.broken == false) {
-                if(x > b.x - ballRadius && x - ballRadius < b.x + brickWidth && y > b.y - ballRadius && y - ballRadius < b.y + brickHeight) {
+                if(x - ballRadius > b.x && x - ballRadius < b.x + brickWidth && y > b.y - ballRadius && y - ballRadius < b.y + brickHeight) {
                     dy = -dy;
                     b.broken = true;
                     score++;
@@ -181,6 +191,8 @@ function scoreTrac() {
     }
 }
 
+
+
 //refreshes the canvas and moves the ball around the canvas redrawing it as it goes.
 function ball() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -194,7 +206,14 @@ function ball() {
     lifeLoss();
 }
 
+
+// using the start button to start the game
+
+
+
+
 //draws the ball and other elements. interval can be changed to make ball faster or slower
-var gameTime = setInterval(ball, 10);
-
-
+$start.on('click', function () {
+    $start.hide();
+    gameTime = setInterval(ball, timer);
+});

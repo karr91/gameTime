@@ -1,5 +1,5 @@
 body {
-    height:100vh;
+    height: 100vh;
     display: flex;
     flex-wrap: wrap;
     align-content: center;
@@ -13,6 +13,7 @@ div {
     border: 3px solid black;
     justify-content: center;
 }
+
 
 #scoreBar {
     justify-content: space-between;
@@ -28,4 +29,16 @@ div {
 
 #gameCanvas {
     border: 3px solid #000000;
+}
+
+#start {
+    height: 180px;
+    width: 320px;
+    top: 44%;
+    left: 43.5%;
+    position: absolute;
+    font-size: 40px;
+    color: black;
+    background-color: red;
+    border: 10px solid black;
 }
