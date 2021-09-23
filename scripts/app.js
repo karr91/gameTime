@@ -1,3 +1,4 @@
+// patch1
 const $balls = $('#balls');
 const $score = $('#score')
 // grabbing canvas element from the dom
