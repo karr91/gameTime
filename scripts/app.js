@@ -1,5 +1,3 @@
-// bouncing the ball on the canvas
-
 const $balls = $('#balls');
 const $score = $('#score')
 // grabbing canvas element from the dom
@@ -15,6 +13,7 @@ const $start = $('#start');
 const $endScreen = $('#endScreen');
 const $endText = $('#endText');
 
+// hiding the endscreen in the beginning
 $endScreen.hide();
 
 //establishing a starting position for the ball in the canvas

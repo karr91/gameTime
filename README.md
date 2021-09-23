@@ -18,7 +18,7 @@ Increase number of levels with differing array of difficulties.
 Different Color bricks that take multiple hits to break.
 A way to increase number of balls at different score marks.
 Further refined styling.
-Give it a name.
+
 
 
 # Harder ideas
