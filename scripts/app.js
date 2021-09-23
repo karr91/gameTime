@@ -89,6 +89,9 @@ function drawBricks() {
 document.addEventListener("keydown", keyDown, false);
 document.addEventListener("keyup", keyUp, false);
 
+//event listener for mouse movement
+document.addEventListener("mousemove", mouseMoveHandler, false);
+
 //adding a function to control the key up and key down events.
 function keyDown(e) {
     if(e.key == "Right" || e.key == "ArrowRight") {
@@ -102,6 +105,14 @@ function keyUp(e) {
         paddleRight = false;
     } else if (e.key == "Left" || e.key == "ArrowLeft") {
         paddleLeft = false;
+    }
+}
+
+//adding mouse movement for paddle
+function mouseMoveHandler(e) {
+    var relativeX = e.clientX - canvas.offsetLeft;
+    if(relativeX > 0 && relativeX < canvas.width) {
+        paddlePosition = relativeX - paddleWidth / 2;
     }
 }
 
