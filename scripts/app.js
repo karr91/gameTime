@@ -26,12 +26,13 @@ var dx = 3;
 var dy = -3;
 
 //setting a radius for the ball. this can be altered at higher difficulties 
-var ballRadius = 15;
+var ballRadius = 30;
 
 // defining the paddle size and starting position
 var paddleHeight = 20;
 var paddleWidth = 200;
-var paddlePosition = (canvas.width - paddleWidth) / 2;
+var paddleX = (canvas.width - paddleWidth) / 2;
+var paddleY = canvas.height - paddleHeight - 60;
 
 //establishing directions for the paddle
 var paddleRight = false;
@@ -59,7 +60,7 @@ var score = 0;
 
 
 // establishing a variable for changing the time and increasing difficulty of levels
-var timer = 10;
+var timer = 50;
 var level = 0;
 
 
@@ -83,7 +84,7 @@ function drawBricks() {
             }
         }
     }
-}
+};
 
 // added event listeners to control the paddle with arrow keys
 document.addEventListener("keydown", keyDown, false);
@@ -106,28 +107,28 @@ function keyUp(e) {
     } else if (e.key == "Left" || e.key == "ArrowLeft") {
         paddleLeft = false;
     }
-}
+};
 
 //adding mouse movement for paddle
 function mouseMoveHandler(e) {
     var relativeX = e.clientX - canvas.offsetLeft;
-    if(relativeX > 0 && relativeX < canvas.width) {
-        paddlePosition = relativeX - paddleWidth / 2;
+    if(relativeX > 0 + (paddleWidth / 2)  && relativeX < canvas.width - (paddleWidth / 2)) {
+        paddleX = relativeX - paddleWidth / 2;
     }
-}
+};
 
 // function to control the movement of the paddle
 function paddleMove() {
     if(paddleRight) {
-        paddlePosition += 7;
-        if(paddlePosition + paddleWidth > canvas.width) {
-            paddlePosition = canvas.width - paddleWidth;
+        paddleX += 7;
+        if(paddleX + paddleWidth > canvas.width) {
+            paddleX = canvas.width - paddleWidth;
         }
     }
     else if(paddleLeft) {
-        paddlePosition -= 7;
-        if(paddlePosition < 0) {
-            paddlePosition = 0;
+        paddleX -= 7;
+        if(paddleX < 0) {
+            paddleX = 0;
         }
     }
 };
@@ -139,16 +140,16 @@ function drawBall() {
     ctx.fillStyle = "red";
     ctx.fill();
     ctx.closePath();
-}
+};
 
 // drawing the paddle on the canvas
 function drawPaddle() {
     ctx.beginPath();
-    ctx.rect(paddlePosition, canvas.height-paddleHeight - 60, paddleWidth, paddleHeight);
+    ctx.rect(paddleX, paddleY, paddleWidth, paddleHeight);
     ctx.fillStyle = 'gray';
     ctx.fill();
     ctx.closePath();
-}
+};
 
 function ballBounce() {
 // if statements to bounce the ball off the wall without the ball going into the wall 
@@ -164,13 +165,17 @@ function ballBounce() {
         dy = -dy;
     }
 // allowing the ball to bounce off the paddle
-if ( x > paddlePosition - ballRadius && x < paddlePosition + paddleWidth - ballRadius && y > canvas.height - paddleHeight -60 - ballRadius && y + dy < (canvas.height - paddleHeight - 60) + paddleHeight - ballRadius){
+    if ( x  > paddleX && x < paddleX + paddleWidth && y < paddleY && y > paddleY - paddleHeight){
         dy = -dy;
-    }
+    } 
+    // if ( x < paddlePosition - ballRadius && x > paddlePosition + paddleWidth - ballRadius && y < canvas.height - paddleHeight - 60 - ballRadius && y > (canvas.height - paddleHeight - 60) + paddleHeight - ballRadius) {
+    //     dx = -dx;
+    // }
+
 // moving the ball as if it bounced off the wall 
     x += dx;
     y += dy;
-}
+};
 
 function brickCollision() {
     for(var c = 0; c < brickColumn; c++) {
@@ -185,7 +190,7 @@ function brickCollision() {
             }
         }
     }
-}
+};
 
 //function to subrtract balls when the ball hits the bottom of the canvas.
 function ballLoss() {
@@ -198,7 +203,7 @@ function ballLoss() {
         $endText.html(`You have run out of balls with a score of ${score}.`);
         // location.reload();
     }
-}
+};
 
 //function to increase the score on the page
 function scoreTrac() {
@@ -210,7 +215,7 @@ function scoreTrac() {
         $endText.html('You have reached the max score of 108. Congrats!');
         // location.reload();
     }
-}
+};
 
 
 
@@ -224,7 +229,7 @@ function ball() {
     paddleMove();
     brickCollision();
     scoreTrac();
-    ballLoss();
+    // ballLoss();
 }
 
 
